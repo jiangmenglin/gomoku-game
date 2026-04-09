@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { hashPassword } from '../utils/crypto';
 
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
@@ -15,7 +16,8 @@ export default function RegisterPage() {
     setError(''); setSuccess('');
     if (password !== confirmPwd) { setError('两次密码不一致'); return; }
     try {
-      await axios.post('http://localhost:4000/api/auth/register', { username, password });
+      const hashedPassword = await hashPassword(password);
+      await axios.post('http://localhost:4000/api/auth/register', { username, password: hashedPassword });
       setSuccess('注册成功，正在跳转...');
       setTimeout(() => navigate('/login'), 1500);
     } catch(err) {

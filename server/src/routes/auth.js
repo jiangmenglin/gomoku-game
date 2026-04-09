@@ -2,11 +2,16 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+// 验证 SHA-256 哈希（64位十六进制字符串）
+function isValidSha256Hash(hash) {
+  return typeof hash === 'string' && /^[a-f0-9]{64}$/i.test(hash);
+}
+
 router.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) return res.status(400).json({ message: 'Username and password required' });
-    if (password.length < 4) return res.status(400).json({ message: 'Password must be at least 4 characters' });
+    if (!isValidSha256Hash(password)) return res.status(400).json({ message: 'Password must be a valid SHA-256 hash' });
     const existing = await User.findOne({ username });
     if (existing) return res.status(400).json({ message: 'Username already exists' });
     const user = new User({ username, password });
@@ -20,6 +25,7 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
+    if (!isValidSha256Hash(password)) return res.status(400).json({ message: 'Invalid credentials' });
     const user = await User.findOne({ username });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
     const isMatch = await user.comparePassword(password);

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -c src/app.js)",
+      "Bash(node -c src/routes/auth.js)",
+      "Bash(node -c src/utils/crypto.js)"
+    ]
+  }
+}

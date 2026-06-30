@@ -1,10 +1,11 @@
 import { io } from 'socket.io-client';
+import { API_URL } from './api';
 
 let socket = null;
 
 export function connectSocket(token) {
   if (socket) socket.disconnect();
-  socket = io('http://localhost:4000', {
+  socket = io(API_URL || undefined, {
     auth: { token },
     transports: ['websocket', 'polling']
   });

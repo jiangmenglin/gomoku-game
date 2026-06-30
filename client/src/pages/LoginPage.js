@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
+import api from '../utils/api';
 import { hashPassword } from '../utils/crypto';
 
 export default function LoginPage() {
@@ -16,7 +16,7 @@ export default function LoginPage() {
     setError('');
     try {
       const hashedPassword = await hashPassword(password);
-      const res = await axios.post('http://localhost:4000/api/auth/login', { username, password: hashedPassword });
+      const res = await api.post('/auth/login', { username, password: hashedPassword });
       login(res.data.token, res.data.user);
       navigate('/room');
     } catch(err) {

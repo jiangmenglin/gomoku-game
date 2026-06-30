@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -9,9 +9,9 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (token) {
-      axios.get('http://localhost:4000/api/user/me', {
-        headers: { Authorization: 'Bearer ' + token }
-      }).then(res => setUser(res.data)).catch(() => { logout(); });
+      api.get('/user/me')
+        .then(res => setUser(res.data))
+        .catch(() => { logout(); });
     }
   }, [token]);
 
@@ -30,9 +30,7 @@ export function AuthProvider({ children }) {
   const refreshUser = async () => {
     if (token) {
       try {
-        const res = await axios.get('http://localhost:4000/api/user/me', {
-          headers: { Authorization: 'Bearer ' + token }
-        });
+        const res = await api.get('/user/me');
         setUser(res.data);
       } catch(e) { /* ignore */ }
     }

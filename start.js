@@ -61,3 +61,7 @@ startClient();
 
 log('Both services started!');
 log('Open http://localhost:3000 in your browser');
+log('');
+log('For production deployment with Docker:');
+log('  docker compose build');
+log('  docker compose up -d');

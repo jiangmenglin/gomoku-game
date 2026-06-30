@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'http://localhost:4000/api' });
+const API_URL = process.env.REACT_APP_API_URL || '';
+
+const api = axios.create({ baseURL: API_URL + '/api' });
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('gomoku_token');
@@ -9,3 +11,4 @@ api.interceptors.request.use(config => {
 });
 
 export default api;
+export { API_URL };

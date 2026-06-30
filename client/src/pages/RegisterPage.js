@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import { hashPassword } from '../utils/crypto';
-
 export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,8 +14,7 @@ export default function RegisterPage() {
     setError(''); setSuccess('');
     if (password !== confirmPwd) { setError('两次密码不一致'); return; }
     try {
-      const hashedPassword = await hashPassword(password);
-      await api.post('/auth/register', { username, password: hashedPassword });
+      await api.post('/auth/register', { username, password });
       setSuccess('注册成功，正在跳转...');
       setTimeout(() => navigate('/login'), 1500);
     } catch(err) {

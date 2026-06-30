@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
-import { hashPassword } from '../utils/crypto';
-
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -15,8 +13,7 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     try {
-      const hashedPassword = await hashPassword(password);
-      const res = await api.post('/auth/login', { username, password: hashedPassword });
+      const res = await api.post('/auth/login', { username, password });
       login(res.data.token, res.data.user);
       navigate('/room');
     } catch(err) {

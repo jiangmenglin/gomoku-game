@@ -12,9 +12,9 @@ COPY server/package*.json ./server/
 RUN cd server && npm ci --omit=dev
 COPY server/ ./server/
 COPY --from=build /app/client/build ./client/build
-EXPOSE 22
+EXPOSE 80
 ENV NODE_ENV=production
-ENV PORT=22
+ENV PORT=80
 WORKDIR /app/server
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "src/app.js"]

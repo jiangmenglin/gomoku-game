@@ -39,7 +39,7 @@ setupGameSocket(io);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
-    const PORT = process.env.PORT || 22;
+    const PORT = process.env.PORT || 80;
     server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch(err => console.error('MongoDB connection error:', err));

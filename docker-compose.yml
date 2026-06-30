@@ -4,10 +4,10 @@ services:
   app:
     build: .
     ports:
-      - "22:22"
+      - "80:80"
     environment:
       - NODE_ENV=production
-      - PORT=22
+      - PORT=80
       - MONGO_URI=mongodb://mongo:27017/gomoku
       - JWT_SECRET=${JWT_SECRET:-change_this_to_a_random_secret}
       - CLIENT_ORIGIN=
